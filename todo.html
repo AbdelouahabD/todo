@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <style>
+        .task {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .task.completed {
+            text-decoration: line-through;
+            background-color: #20d73b;
+        }
+        .task button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Ma liste de tâches</h2>
+
+    
+    <button id="ajouterTask">Ajouter une tâche</button>
+
+    <div id="todoList">
+        <!-- Exemple de tâche -->
+        <div class="task" data-task-id="1">
+            <span>Faire les courses</span>
+            <div>
+                <button class="completeTask">Accomplir</button>
+                <button class="deleteTask">Supprimer</button>
+            </div>
+        </div>
+        <!-- Les tâches suivantes seront ajoutées ici -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const todoList = document.getElementById('todoList');
+
+            
+            const ajouterTaskButton = document.getElementById('ajouterTask');
+            ajouterTaskButton.addEventListener('click', function() {
+                ajouterNouvelleTache();
+            });
+
+            todoList.addEventListener('click', function(event) {
+                const target = event.target;
+                if (target.classList.contains('completeTask')) {
+                    completeTask(target);
+                } else if (target.classList.contains('deleteTask')) {
+                    deleteTask(target);
+                }
+            });
+
+            
+            function completeTask(button) {
+                const taskElement = button.closest('.task');
+                taskElement.classList.add('completed');
+            }
+
+            
+            function deleteTask(button) {
+                const taskElement = button.closest('.task');
+                todoList.removeChild(taskElement);
+            }
+
+            
+            function ajouterNouvelleTache() {
+                
+                const texteTache = prompt("Entrez le texte de la nouvelle tâche :");
+                
+                if (texteTache && texteTache.trim() !== "") {
+                    
+                    const nouvelleTache = document.createElement('div');
+                    nouvelleTache.classList.add('task');
+
+                    
+                    const spanTache = document.createElement('span');
+                    spanTache.textContent = texteTache;
+
+                   
+                    const divBoutons = document.createElement('div');
+                    
+                    
+                    const boutonAccomplir = document.createElement('button');
+                    boutonAccomplir.classList.add('completeTask');
+                    boutonAccomplir.textContent = 'Accomplir';
+
+                    
+                    const boutonSupprimer = document.createElement('button');
+                    boutonSupprimer.classList.add('deleteTask');
+                    boutonSupprimer.textContent = 'Supprimer';
+
+                    
+                    divBoutons.appendChild(boutonAccomplir);
+                    divBoutons.appendChild(boutonSupprimer);
+
+                    
+                    nouvelleTache.appendChild(spanTache);
+                    nouvelleTache.appendChild(divBoutons);
+
+                  
+                    todoList.appendChild(nouvelleTache);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
